@@ -43,3 +43,12 @@ npm install
 ```
 npm start
 ```
+## Passo 8: seja feliz
+
+
+```
+http://localhost:3000/
+```
+ou 
+
+http://localhost:3000/
