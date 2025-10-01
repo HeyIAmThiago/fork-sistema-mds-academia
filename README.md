@@ -1,6 +1,45 @@
-# workout-day-gym-management-system
-This is a course project for CPSC 471(Winter 2022) at the University of Calgary.
+# Trabalho da disciplina de Manutenção de Software (como rodar o fork do projeto)
 
-It has been deployed to https://goldfish-app-gzq9d.ondigitalocean.app
+## Passo 1: clona o repo
 
-Author: Yihan Wang, Junyi Li, Sipeng He
+```
+git clone https://github.com/HeyIAmThiago/fork-sistema-mds-academia.git
+```
+
+## Passo 2: instala as dependências do back
+
+
+```
+cd .\fork-sistema-mds-academia\back-end\
+```
+
+
+
+```
+npm install
+```
+
+## Passo 3: add o .env no back (no diretório atual)
+
+## Passo 4: roda o back
+```
+npm start
+```
+
+## Passo 5: abre oto terminal e instala as dependências do front
+
+
+```
+cd .\fork-sistema-mds-academia\front-end\
+```
+
+```
+npm install
+```
+
+## Passo 6: add o .env.local no front (no diretório atual)
+
+## Passo 7: roda o front
+```
+npm start
+```
