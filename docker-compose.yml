@@ -1,0 +1,35 @@
+services:
+  backend:
+    build: ./fork-sistema-mds-academia/back-end
+    container_name: backend_app
+    ports:
+      - "5000:3000" # Mapeia a porta 3000 do contêiner para a 5000 da sua máquina
+    volumes:
+      - ./fork-sistema-mds-academia/back-end:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      # A variável abaixo será lida do arquivo .env
+      DB_CONNECT_STRING: ${DB_CONNECT_STRING}
+      JWT_KEY: ${JWT_KEY}
+      PORT: 3000
+    networks:
+      - app-network
+
+  frontend:
+    build: ./fork-sistema-mds-academia/front-end
+    container_name: frontend_app
+    ports:
+      - "3000:3000" # Mapeia a porta 3000 do contêiner para a 3000 da sua máquina
+    volumes:
+      - ./fork-sistema-mds-academia/front-end:/usr/src/app
+      - /usr/src/app/node_modules
+    stdin_open: true # Necessário para o Create React App
+    tty: true
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
