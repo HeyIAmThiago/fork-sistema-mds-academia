@@ -8,18 +8,15 @@ git clone https://github.com/HeyIAmThiago/fork-sistema-mds-academia.git
 
 ## Passo 2: navegue até a pasta do projeto
 
-
 ```
 cd .\fork-sistema-mds-academia\back-end\
 ```
-
 
 ## Passo 3: builde o projeto
 
 ```
 docker compose up --build
 ```
-
 
 ## Passo 3: acesse a URL
 
