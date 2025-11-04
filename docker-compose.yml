@@ -1,9 +1,25 @@
 services:
+  # Serviço MongoDB
+  mongo:
+    image: mongo:6.0 # Usamos uma imagem estável do MongoDB
+    container_name: mongodb_local
+    ports:
+      - "27017:27017" # Porta padrão do MongoDB
+    volumes:
+      - mongo-data:/data/db # Persistência dos dados
+    environment:
+      # Configuração básica do MongoDB para desenvolvimento
+      MONGO_INITDB_ROOT_USERNAME: user_mds
+      MONGO_INITDB_ROOT_PASSWORD: secret_password
+      MONGO_INITDB_DATABASE: mds_database
+    networks:
+      - app-network
+
   backend:
     build: ./back-end
     container_name: backend_app
     ports:
-      - "5000:3000" # Mapeia a porta 3000 do contêiner para a 5000 da sua máquina
+      - "5000:3000"
     volumes:
       - ./back-end:/usr/src/app
       - /usr/src/app/node_modules
@@ -12,6 +28,8 @@ services:
       DB_CONNECT_STRING: ${DB_CONNECT_STRING}
       JWT_KEY: ${JWT_KEY}
       PORT: 3000
+    depends_on:
+      - mongo # Garante que o MongoDB inicie antes do backend
     networks:
       - app-network
 
@@ -19,11 +37,11 @@ services:
     build: ./front-end
     container_name: frontend_app
     ports:
-      - "3000:3000" # Mapeia a porta 3000 do contêiner para a 3000 da sua máquina
+      - "3000:3000"
     volumes:
       - ./front-end:/usr/src/app
       - /usr/src/app/node_modules
-    stdin_open: true # Necessário para o Create React App
+    stdin_open: true
     tty: true
     depends_on:
       - backend
@@ -33,3 +51,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mongo-data:

@@ -6,7 +6,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const uri = process.env.REACT_APP_API_ENDPOINT + "/customer";
+  // CORREÇÃO 1: Definindo o endereço de fallback DENTRO do componente
+  // Isso ignora a falha de resolução de rede interna (ERR_NAME_NOT_RESOLVED).
+  const API_ENDPOINT = "http://host.docker.internal:5000";
+  const uri = API_ENDPOINT + "/customer";
+
   const FILE_SIZE = 5 * 1024 * 1024;
   const SUPPORTED_FORMATS = [
     "image/jpg",
@@ -35,36 +39,38 @@ const Register = () => {
         phoneNumber,
         email,
         password,
-        image,
+        // O campo 'image' não será mais usado após a remoção do upload.
       } = values;
 
-      const instance = axios.create();
-
+      // =======================================================
+      // CÓDIGO DE UPLOAD DO CLOUDINARY FOI REMOVIDO/COMENTADO
+      // Isso resolve o erro: TypeError: Cannot read properties of undefined (reading 'data')
+      // =======================================================
+      /*
+      const instance = axios.create(); 
       const formData = new FormData();
-      formData.append("file", image);
+      formData.append("file", values.image);
       formData.append("upload_preset", "Workout-day");
 
       const res = await instance.post(
-        // "https://api.cloudinary.com/v1_1/hesipeng/image/upload"
         process.env.REACT_APP_AVATAR_UPLOAD_URL,
         formData
       );
-
       const avatarUrl = res.data.secure_url;
+      */
 
-      const result = await axios.post(
-        // "http://localhost:4000/customer"
-        uri,
-        {
-          firstName,
-          lastName,
-          phoneNumber,
-          email,
-          password,
-          gender,
-          avatarUrl,
-        }
-      );
+      // VARIÁVEL DE FALLBACK (Usuário será criado sem avatar, pois não é obrigatório no backend)
+      const avatarUrl = null;
+
+      const result = await axios.post(uri, {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+        gender,
+        avatarUrl,
+      });
       navigate("/login");
     },
     validationSchema: Yup.object({
@@ -90,17 +96,20 @@ const Register = () => {
       confirmPassword: Yup.string()
         .required("Please re-enter the password.")
         .oneOf([Yup.ref("password")], "Passwords do not match"),
+
+      // CORREÇÃO 2: Removida a validação obrigatória da imagem
+      // Para testes locais, onde o upload foi desabilitado.
       image: Yup.mixed()
-        .required("A file is required")
         .test(
           "fileSize",
           "File too large",
-          (value) => value && value.size <= FILE_SIZE
+          // Permite que o campo seja nulo, se a imagem não for selecionada
+          (value) => !value || value.size <= FILE_SIZE
         )
         .test(
           "fileFormat",
           "Unsupported Format",
-          (value) => value && SUPPORTED_FORMATS.includes(value.type)
+          (value) => !value || SUPPORTED_FORMATS.includes(value.type)
         ),
     }),
     validateOnBlur: true,
@@ -127,7 +136,7 @@ const Register = () => {
             <form>
               <div className="mb-3">
                 <label htmlFor="formFile" className="form-label">
-                  Upload your profile picture
+                  Upload your profile picture (Opcional para teste)
                 </label>
                 <input
                   className="form-control"
