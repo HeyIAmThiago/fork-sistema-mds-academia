@@ -29,17 +29,17 @@ http://localhost:3000/
 ### Gerente Executivo
 
 ```
-curl -X GET http://localhost:5000/branch \ -H "x-executive-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjIyOTIwNzJ9.Kh_1-f1PFT0ZUMF4qKau2Ix13bNj7W4inR1-AzUgyZs"
+curl -X POST http://localhost:5000/executive -H "Content-Type: application/json" -d "{\"username\": \"executivo_admin\", \"password\": \"senha_exec_123\"}"
 ```
 
 ### Gerente de Filial
 
 ```
-curl -X GET http://localhost:5000/branch_staff \ -H "x-manager-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjIyOTIxMTZ9.6gCR06L9Cyq9qmGOM_qGaY7J45q3-5c8ju68wOn4uO8"
+curl -X POST http://localhost:5000/branch_manager/register -H "Content-Type: application/json" -H "x-executive-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjIyOTIwNzJ9.Kh_1-f1PFT0ZUMF4qKau2Ix13bNj7W4inR1-AzUgyZs" -d "{\"username\": \"filial@gmail.com\", \"password\": \"senha_filial_123\"}"
 ```
 
 ### Cliente
 
 ```
-curl -X GET http://localhost:5000/branch_staff/coach \ -H "x-customer-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NjIyOTMzMTR9.J5Flequ1b-LC_bnakIyCHesY8Y-QNc-jbhaoKvaxMOw"
+curl -X POST http://localhost:5000/customer -H "Content-Type: application/json" -d "{\"firstName\": \"Primeiro\", \"lastName\": \"Cliente\", \"gender\": \"Male\", \"phoneNumber\": \"9876543210\", \"email\": \"cliente@gmail.com\", \"password\": \"senha_cliente_123\"}"
 ```
