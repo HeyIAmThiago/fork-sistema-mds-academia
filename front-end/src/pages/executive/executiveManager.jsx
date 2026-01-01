@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { paginate } from "../../utils/paginate";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import Pagi from "../../components/executive/pagination";
 import BranchTable from "../../components/executive/branchTable";
 import BranchDeleteConfirm from "../../components/executive/branchDeleteConfirm";
@@ -29,8 +29,8 @@ class ExecutiveManager extends Component {
   };
 
   async componentDidMount() {
-    const req = await http.get(`http://localhost:4000/branch`);
-    this.setState({ branches: req.data });
+    const response = await http.get(`http://localhost:4000/branch`);
+    this.setState({ branches: response.data });
   }
 
   handlePageChange = (page) => {
@@ -73,7 +73,7 @@ class ExecutiveManager extends Component {
     const id = this.state.branchEditing._id;
     const { name, yearlyProfit, numberOfMembers, location, managerId } = values;
     const data = { name, yearlyProfit, numberOfMembers, location, managerId };
-    const req = await http.put(
+    await http.put(
       // `http://localhost:4000/branch/${id}`
       uri + id,
       data

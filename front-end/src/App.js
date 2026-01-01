@@ -1,10 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import NavBar from "./components/nav";
-import Home from "./pages/client/home";
-import Products from "./pages/client/browseProducts";
 import Login from "./pages/client/login";
-import ShoppingCart from "./pages/client/shoppingCart";
 import Orders from "./pages/client/orders";
 import BranchManagement from "./pages/manager/branchManagement";
 import Customer from "./pages/manager/customer";
@@ -14,13 +11,11 @@ import Staff from "./pages/manager/staff";
 import Locker from "./pages/manager/locker";
 import CommonFacility from "./pages/manager/commonFacility";
 import Profile from "./pages/client/profile";
-import ATable from "./components/client/appointment/atable";
 import Appointment from "./pages/client/appointments";
 import MangerLogin from "./pages/manager/mangerLogin";
 import NotFound from "./pages/notFound";
 import ProtectedRoute from "./utils/protectedRoute";
 import Shopping from "./pages/client/shopping";
-import Register from "./components/client/register/register";
 import RegisterPage from "./pages/client/registerPage";
 import AlreadyLoggedIn from "./pages/client/alreadyLoggedIn";
 import ExecutiveManager from "./pages/executive/executiveManager";
@@ -34,7 +29,6 @@ import Footer from "./components/footer";
 function App() {
   let jwt = localStorage.getItem("token");
   let ejwt = localStorage.getItem("eToken");
-  const mjwt = localStorage.getItem("");
   return (
     <div className="wrapper">
       <ToastContainer />

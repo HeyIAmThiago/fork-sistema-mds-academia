@@ -121,7 +121,7 @@ const AppointmentManagement = () => {
                         <Form.Group className="mb-2">
                             <Form.Select value={appointment.slot}
                                          onChange={(e) => {
-                                             setAppointment({...appointment, slot: parseInt(e.currentTarget.value)})
+                                             setAppointment({...appointment, slot: Number.parseInt(e.currentTarget.value, 10)})
                                          }}
                                          size="lg"
                                          style={{fontSize: "16px", paddingLeft: "12px", paddingTop: "16px", paddingBottom: "16px"}}>

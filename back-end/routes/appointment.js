@@ -30,8 +30,9 @@ router.post('/', customerAuth, async (req, res) => {
     try {
         await appointment.save();
         res.send(appointment);
-    } catch (e) {
-        res.status(500).send("Internal Error")
+    } catch (error) {
+        console.error("Error creating appointment:", error);
+        res.status(500).send("Internal Error");
     }
 });
 
@@ -39,9 +40,14 @@ router.post('/', customerAuth, async (req, res) => {
 router.put('/:id', managerAuth, async (req, res) => {
     const {coachId, date, slot, customerId} = req.body;
     try {
-        const result = await Appointment.findByIdAndUpdate(req.params.id, {coachId, date, slot, customerId});
+        const appointmentId = req.params.id;
+        const result = await Appointment.findByIdAndUpdate(appointmentId, {coachId, date, slot, customerId});
+        if (!result) {
+            return res.status(404).send("Appointment not found");
+        }
         res.send(result);
-    } catch (e) {
+    } catch (error) {
+        console.error("Error updating appointment:", error);
         res.status(400).send("Bad Request");
     }
 });

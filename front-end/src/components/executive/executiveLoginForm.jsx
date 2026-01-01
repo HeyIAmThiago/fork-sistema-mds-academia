@@ -27,7 +27,8 @@ const MyComponent = () => {
           localStorage.setItem("eId", res.data.id);
           window.location.reload();
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error("Login error:", error);
           setInvalidCredentialVisibility(true);
         });
     },

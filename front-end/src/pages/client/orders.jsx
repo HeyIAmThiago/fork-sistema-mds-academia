@@ -43,7 +43,7 @@ class Orders extends Component {
   };
 
   render() {
-    if (this.state.orders.length == 0) {
+    if (this.state.orders.length === 0) {
       return (
         <div className="d-flex justify-content-center mt-3">
           <h2>There is no order to be shown.</h2>
@@ -54,7 +54,7 @@ class Orders extends Component {
         <div>
           <div className="d-flex flex-column align-items-center">
             {this.state.orders.map((order) => (
-              <OrderCard order={order} onDelete={this.handleDelete} />
+              <OrderCard key={order._id} order={order} onDelete={this.handleDelete} />
             ))}
           </div>
           <div>

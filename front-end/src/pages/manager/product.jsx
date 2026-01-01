@@ -280,7 +280,7 @@ const Product = () => {
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>
-            {product === {} ? "Add a product" : "Edit a product"}
+            {Object.keys(product).length === 0 ? "Add a product" : "Edit a product"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -423,7 +423,7 @@ const Product = () => {
             Close
           </Button>
           <Button variant="primary" onClick={handleSave}>
-            {product === {} ? "Add" : "Save changes"}
+            {Object.keys(product).length === 0 ? "Add" : "Save changes"}
           </Button>
           {!adding && (
             <Button variant="danger" onClick={handleDelete}>

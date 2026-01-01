@@ -11,6 +11,7 @@ const ProductList = (props) => {
         <Row key={index} className={index != 1 ? "mt-2" : "mt-2"}>
           {productRow.map((product) => (
             <ProductCard
+              key={product._id || product.id}
               id={product.id}
               product={product}
               onPurchase={props.onPurchase}

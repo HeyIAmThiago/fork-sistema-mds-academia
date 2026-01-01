@@ -17,7 +17,6 @@ const Appointments = () => {
   const [coaches, setCoaches] = useState([]);
   const [coach, setCoach] = useState({});
   const [value, setValue] = useState(new Date());
-  const [date, setDate] = useState(0);
   const [slot, setSlot] = useState(-1);
 
   useEffect(() => {
@@ -55,7 +54,9 @@ const Appointments = () => {
     try {
       await http.post(apUri, data);
       window.location.reload();
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error creating appointment:", error);
+    }
   };
   const handleDelete = async (a) => {
     await http.delete(apUri + "/" + a._id);
@@ -70,7 +71,7 @@ const Appointments = () => {
     result[1] = <div>{"Date: " + date.toString().slice(0, 15)}</div>;
     result[2] = (
       <div>
-        {"Timeslot: " + `${a.slot + offset}:00 - ${a.slot + offset + 1}:00`}
+        {`Timeslot: ${a.slot + offset}:00 - ${a.slot + offset + 1}:00`}
       </div>
     );
     return result;
@@ -145,7 +146,7 @@ const Appointments = () => {
           <h3>My Appointments</h3>
           <hr />
           {appointments.map((a) => (
-            <Card>
+            <Card key={a._id}>
               <Card.Body className="d-flex flex-row justify-content-between">
                 <div>{getAppointmentContent(a)}</div>
                 <Button variant="danger" onClick={() => handleDelete(a)}>

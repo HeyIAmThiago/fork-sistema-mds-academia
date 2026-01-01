@@ -15,7 +15,7 @@ const Purchase = ({
       quantity: "1",
     },
     onSubmit: (values) => {
-      onMakePurchase(parseInt(values.quantity), product);
+      onMakePurchase(Number.parseInt(values.quantity, 10), product);
       values.quantity = 1;
     },
     validationSchema: Yup.object({
@@ -33,7 +33,7 @@ const Purchase = ({
             if (item == null) {
               return true;
             } else {
-              return parseInt(item.quantity) + parseInt(value) <= 100;
+              return Number.parseInt(item.quantity, 10) + Number.parseInt(value, 10) <= 100;
             }
           }
         )

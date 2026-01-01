@@ -7,18 +7,29 @@ const customerOrManagerAuth = require("../middleware/customerOrManagerAuth");
 
 router.get('/customer/:id', customerAuth, async (req, res) => {
   try {
-    const result = await Order.find({customerId: req.params.id});
+    // Validate that the customerId matches the authenticated user's ID
+    const customerId = req.params.id;
+    if (req.user && req.user._id && req.user._id.toString() !== customerId) {
+      return res.status(403).send("Forbidden: Cannot access other users' orders");
+    }
+    const result = await Order.find({ customerId });
     res.send(result);
-  } catch (e) {
+  } catch (error) {
+    console.error("Error fetching customer orders:", error);
     res.status(400).send("Bad Request");
   }
 });
 
 router.get("/:id", customerOrManagerAuth, async (req, res) => {
   try {
-    const result = await Order.findById(req.params.id);
+    const orderId = req.params.id;
+    const result = await Order.findById(orderId);
+    if (!result) {
+      return res.status(404).send("Order not found");
+    }
     res.send(result);
-  } catch (e) {
+  } catch (error) {
+    console.error("Error fetching order:", error);
     res.status(400).send("Bad Request");
   }
 });
@@ -50,9 +61,14 @@ router.post("/", customerOrManagerAuth, async (req, res) => {
 
 router.delete("/:id", customerOrManagerAuth, async (req, res) => {
   try {
-    const result = await Order.findByIdAndDelete(req.params.id);
+    const orderId = req.params.id;
+    const result = await Order.findByIdAndDelete(orderId);
+    if (!result) {
+      return res.status(404).send("Order not found");
+    }
     res.send(result);
-  } catch (e) {
+  } catch (error) {
+    console.error("Error deleting order:", error);
     res.status(400).send("Bad Request");
   }
 });
@@ -60,9 +76,14 @@ router.delete("/:id", customerOrManagerAuth, async (req, res) => {
 router.patch('/:id', managerAuth, async (req, res) => {
   const { isFulfilled } = req.body;
   try {
-    const result = await Order.findByIdAndUpdate(req.params.id, {$set: { isFulfilled }});
+    const orderId = req.params.id;
+    const result = await Order.findByIdAndUpdate(orderId, { $set: { isFulfilled } });
+    if (!result) {
+      return res.status(404).send("Order not found");
+    }
     res.send(result);
-  } catch (e) {
+  } catch (error) {
+    console.error("Error updating order:", error);
     res.status(400).send("Bad Request");
   }
 });

@@ -29,9 +29,10 @@ const MangerLogin = () => {
         try {
             const response = await http.post(uri, {username, password});
             localStorage.setItem('manager_token', response.data.token);
-            window.location = "/branch/manage";
+            window.location.href = "/branch/manage";
         }
-        catch (e) {
+        catch (error) {
+            console.error("Login error:", error);
             setSubmitting(false);
         }
     }

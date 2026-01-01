@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component } from "react";
 import Products from "./browseProducts";
 import ShoppingCart from "./shoppingCart";
 import { Container, Tab, Tabs } from "react-bootstrap";
@@ -30,9 +30,7 @@ class Shopping extends Component {
             product.image = "/gym-logo.svg";
           }
           if (!product.description) {
-            {
-              product.description = "This is a product provided by the gym.";
-            }
+            product.description = "This is a product provided by the gym.";
           }
         });
         this.setState({ products });
@@ -57,9 +55,9 @@ class Shopping extends Component {
   onMakePurchase = (quantity, product) => {
     let shoppingCartItems = [...this.state.shoppingCartItems];
     const index = shoppingCartItems.findIndex((item) => {
-      return product._id == item._id;
+      return product._id === item._id;
     });
-    if (index == -1) {
+    if (index === -1) {
       let item = {
         quantity: quantity,
         _id: product._id,
@@ -75,7 +73,7 @@ class Shopping extends Component {
         ifPurchasing: false,
       });
     } else {
-      shoppingCartItems[index].quantity += parseInt(quantity);
+      shoppingCartItems[index].quantity += Number.parseInt(quantity, 10);
       this.setState({
         shoppingCartItems,
         productPurchasing: null,
@@ -86,7 +84,7 @@ class Shopping extends Component {
 
   onDelete = (item) => {
     const shoppingCartItems = this.state.shoppingCartItems.filter(
-      (i) => i._id != item._id
+      (i) => i._id !== item._id
     );
     this.setState({ shoppingCartItems });
   };
@@ -97,26 +95,30 @@ class Shopping extends Component {
   };
 
   onAddOne = (item) => {
-    let shoppingCartItems = [...this.state.shoppingCartItems];
-    let index = shoppingCartItems.findIndex((shoppingCartItem) => {
-      return shoppingCartItem._id == item._id;
+    this.setState((prevState) => {
+      const shoppingCartItems = [...prevState.shoppingCartItems];
+      const index = shoppingCartItems.findIndex((shoppingCartItem) => {
+        return shoppingCartItem._id === item._id;
+      });
+      shoppingCartItems[index].quantity += 1;
+      return { shoppingCartItems };
     });
-    shoppingCartItems[index].quantity += 1;
-    this.setState({ shoppingCartItems });
   };
 
   onRemoveOne = (item) => {
-    let shoppingCartItems = [...this.state.shoppingCartItems];
-    let index = shoppingCartItems.findIndex((shoppingCartItem) => {
-      return shoppingCartItem._id == item._id;
+    this.setState((prevState) => {
+      const shoppingCartItems = [...prevState.shoppingCartItems];
+      const index = shoppingCartItems.findIndex((shoppingCartItem) => {
+        return shoppingCartItem._id === item._id;
+      });
+      shoppingCartItems[index].quantity -= 1;
+      if (shoppingCartItems[index].quantity > 0) {
+        return { shoppingCartItems };
+      } else {
+        shoppingCartItems.splice(index, 1);
+        return { shoppingCartItems };
+      }
     });
-    shoppingCartItems[index].quantity -= 1;
-    if (shoppingCartItems[index].quantity > 0) {
-      this.setState({ shoppingCartItems });
-    } else {
-      shoppingCartItems.splice(index, 1);
-      this.setState({ shoppingCartItems });
-    }
   };
 
   calculateTotal = (items) => {
@@ -165,9 +167,11 @@ class Shopping extends Component {
           customerId,
         }
       )
-      .then(function (response) {})
+      .then(function (response) {
+        // Order created successfully
+      })
       .catch(function (error) {
-        console.log(error);
+        console.error("Error creating order:", error);
       });
     this.setState({ shoppingCartItems: [], orderConfirmVisible: false });
   };

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Button, Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -139,6 +140,20 @@ const EditBranch = ({ isVisible, onClose, branchEditing, onSubmitUpdate }) => {
       </form>
     </div>
   );
+};
+
+EditBranch.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  branchEditing: PropTypes.shape({
+    name: PropTypes.string,
+    yearlyProfit: PropTypes.number,
+    location: PropTypes.string,
+    numberOfMembers: PropTypes.number,
+    managerId: PropTypes.string,
+    _id: PropTypes.string,
+  }).isRequired,
+  onSubmitUpdate: PropTypes.func.isRequired,
 };
 
 export default EditBranch;

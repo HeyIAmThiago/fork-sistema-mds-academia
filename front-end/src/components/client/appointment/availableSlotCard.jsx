@@ -66,7 +66,7 @@ const AvailableSlotCard = ({
 
   function renderRadio() {
     const radios = filtered.map((timeSlot) => (
-      <div className="form-check">
+      <div key={timeSlot._id} className="form-check">
         <input
           className="form-check-input"
           type="radio"

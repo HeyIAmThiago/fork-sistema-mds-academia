@@ -14,8 +14,8 @@ const OrderCard = ({ onDelete, order }) => {
       <div className="card-body">
         <h5 className="card-title">Products: </h5>
         <div className="card-text">
-          {order.products.map((product) => (
-            <p>
+          {order.products.map((product, index) => (
+            <p key={index}>
               {product.name} *{product.quantity}
             </p>
           ))}

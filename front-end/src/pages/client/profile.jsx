@@ -25,7 +25,7 @@ class Profile extends React.Component {
     const id = localStorage.getItem("id");
     const data = { BMI, BFP, height, weight };
     const uri = process.env.REACT_APP_API_ENDPOINT + "/customer/profile/";
-    let req = await http.patch(
+    await http.patch(
       // `http://localhost:4000/customer/profile/${id}`,
       uri + id,
       data

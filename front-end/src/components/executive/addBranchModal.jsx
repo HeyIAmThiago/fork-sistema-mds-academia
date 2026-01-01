@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Button, Modal } from "react-bootstrap";
@@ -150,6 +151,11 @@ const AddBranch = ({ isVisible, onClose }) => {
       </form>
     </div>
   );
+};
+
+AddBranch.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default AddBranch;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Col, Container, Row } from "react-bootstrap";
 
 const ProfileCard = ({ onSubmitUpdate, onUpdate, profile }) => {
@@ -15,6 +16,7 @@ const ProfileCard = ({ onSubmitUpdate, onUpdate, profile }) => {
                 {profile.avatarUrl ? (
                   <img
                     src={profile.avatarUrl}
+                    alt="Profile avatar"
                     style={{
                       width: "15rem",
                       height: "15rem",
@@ -25,6 +27,7 @@ const ProfileCard = ({ onSubmitUpdate, onUpdate, profile }) => {
                 ) : (
                   <img
                     src="login.png"
+                    alt="Default profile"
                     style={{ width: "15rem", height: "15rem" }}
                     className="align-self-center"
                   />
@@ -40,28 +43,28 @@ const ProfileCard = ({ onSubmitUpdate, onUpdate, profile }) => {
                 <p>Gender: {profile.gender}</p>
                 <p>
                   Weight:{" "}
-                  {profile.fitnessProfile.weight != 0
+                  {profile.fitnessProfile.weight !== 0
                     ? profile.fitnessProfile.weight
                     : "no data"}{" "}
                   kg{" "}
                 </p>
                 <p>
                   Height:{" "}
-                  {profile.fitnessProfile.height != 0
+                  {profile.fitnessProfile.height !== 0
                     ? profile.fitnessProfile.height
                     : "no data"}{" "}
                   cm
                 </p>
                 <p>
                   BFP:{" "}
-                  {profile.fitnessProfile.BFP != 0
+                  {profile.fitnessProfile.BFP !== 0
                     ? profile.fitnessProfile.BFP
                     : "no data"}{" "}
                   %
                 </p>
                 <p>
                   BMI:{" "}
-                  {profile.fitnessProfile.BMI != 0
+                  {profile.fitnessProfile.BMI !== 0
                     ? profile.fitnessProfile.BMI
                     : "no data"}
                 </p>
@@ -88,6 +91,24 @@ const ProfileCard = ({ onSubmitUpdate, onUpdate, profile }) => {
       </Container>
     </div>
   );
+};
+
+ProfileCard.propTypes = {
+  onSubmitUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    gender: PropTypes.string,
+    fitnessProfile: PropTypes.shape({
+      weight: PropTypes.number,
+      height: PropTypes.number,
+      BFP: PropTypes.number,
+      BMI: PropTypes.number,
+      lastUpdateDate: PropTypes.string,
+    }),
+  }),
 };
 
 export default ProfileCard;

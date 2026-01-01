@@ -12,12 +12,12 @@ const Register = () => {
   const uri = API_ENDPOINT + "/customer";
 
   const FILE_SIZE = 5 * 1024 * 1024;
-  const SUPPORTED_FORMATS = [
+  const SUPPORTED_FORMATS = new Set([
     "image/jpg",
     "image/jpeg",
     "image/gif",
     "image/png",
-  ];
+  ]);
 
   const navigate = useNavigate();
   const formik = useFormik({
@@ -42,27 +42,10 @@ const Register = () => {
         // O campo 'image' não será mais usado após a remoção do upload.
       } = values;
 
-      // =======================================================
-      // CÓDIGO DE UPLOAD DO CLOUDINARY FOI REMOVIDO/COMENTADO
-      // Isso resolve o erro: TypeError: Cannot read properties of undefined (reading 'data')
-      // =======================================================
-      /*
-      const instance = axios.create(); 
-      const formData = new FormData();
-      formData.append("file", values.image);
-      formData.append("upload_preset", "Workout-day");
-
-      const res = await instance.post(
-        process.env.REACT_APP_AVATAR_UPLOAD_URL,
-        formData
-      );
-      const avatarUrl = res.data.secure_url;
-      */
-
       // VARIÁVEL DE FALLBACK (Usuário será criado sem avatar, pois não é obrigatório no backend)
       const avatarUrl = null;
 
-      const result = await axios.post(uri, {
+      await axios.post(uri, {
         firstName,
         lastName,
         phoneNumber,
@@ -109,7 +92,7 @@ const Register = () => {
         .test(
           "fileFormat",
           "Unsupported Format",
-          (value) => !value || SUPPORTED_FORMATS.includes(value.type)
+          (value) => !value || SUPPORTED_FORMATS.has(value.type)
         ),
     }),
     validateOnBlur: true,

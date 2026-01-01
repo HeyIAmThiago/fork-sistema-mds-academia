@@ -41,7 +41,7 @@ const BranchManagement = () => {
                 {getCards()}
             </Row>
             <Row>
-                <Button variant="danger" onClick={() => {localStorage.removeItem("manager_token");window.location = "/branch"}}>Logout</Button>
+                <Button variant="danger" onClick={() => {localStorage.removeItem("manager_token");window.location.href = "/branch"}}>Logout</Button>
             </Row>
         </Container>
     );

@@ -8,7 +8,6 @@ const getToken = () => {
 };
 
 const NavBar = () => {
-  const token = getToken();
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
